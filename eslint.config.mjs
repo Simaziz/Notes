@@ -1,7 +1,5 @@
-const eslintConfig = [
-  {
-    ignores: ["node_modules", "dist", ".next"], // Ignore build and dependency folders
-  },
+// eslint.config.mjs (for ES module)
+export default [
   {
     files: ["**/*.{js,ts,jsx,tsx}"],
     languageOptions: {
@@ -16,8 +14,9 @@ const eslintConfig = [
     },
   },
   {
-    extends: "next/core-web-vitals",
+    ignores: ["node_modules", "dist", ".next"], // Ignore build and dependency folders
+  },
+  {
+    extends: ["next/core-web-vitals"],
   },
 ];
-
-export default eslintConfig;
