@@ -1,22 +1,19 @@
-// eslint.config.mjs (for ES module)
+// eslint.config.mjs
+import js from '@eslint/js';
+import next from 'eslint-plugin-next';
+import prettier from 'eslint-plugin-prettier';
+
 export default [
+  js.configs.recommended,          // Base JavaScript rules
+  next.configs.recommended,        // Next.js-specific rules
   {
-    files: ["**/*.{js,ts,jsx,tsx}"],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-      },
+    plugins: {
+      prettier,
     },
     rules: {
-      "react/no-unescaped-entities": "off",
-      "@next/next/no-html-link-for-pages": "off",
+      'prettier/prettier': 'error', // Ensure Prettier formatting
+      'semi': ['error', 'always'],  // Enforce semicolons
+      'quotes': ['error', 'single'], // Use single quotes
     },
-  },
-  {
-    ignores: ["node_modules", "dist", ".next"], // Ignore build and dependency folders
-  },
-  {
-    extends: ["next/core-web-vitals"],
   },
 ];
