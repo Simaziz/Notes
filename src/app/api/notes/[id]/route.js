@@ -1,3 +1,4 @@
+// pages/api/notes/[id]/route.js
 import { NextResponse } from "next/server";
 import connectToDatabase from "../../../../../lib/mongodb"; // Utility to connect to MongoDB
 import Note from "../../../../../models/note"; // Import the Note model
@@ -5,7 +6,7 @@ import mongoose from "mongoose";
 
 // Handle GET request for a specific note by id
 export async function GET(req, { params }) {
-  const { id } = await params;  // Ensure params is awaited
+  const { id } = params;  // Extract id from params
 
   try {
     await connectToDatabase(); // Connect to MongoDB
@@ -27,8 +28,6 @@ export async function GET(req, { params }) {
     );
   }
 }
-
-// PUT a note by id (update the note)
 
 // 📝 UPDATE (EDIT) a note by ID
 export async function PUT(req, { params }) {
@@ -63,13 +62,20 @@ export async function PUT(req, { params }) {
   }
 }
 
-
-// DELETE a note by id
 // 🗑 DELETE a note by ID
 export async function DELETE(req, { params }) {
   try {
     await connectToDatabase(); // Connect to MongoDB
-    const { id } = params; // Extract note ID from params
+
+    // Log the params to see its structure
+    console.log('params:', params);
+
+    // Now safely extract the id, making sure it exists
+    const { id } = params || {}; // This ensures params is valid
+
+    if (!id) {
+      return NextResponse.json({ message: "Note ID is required" }, { status: 400 });
+    }
 
     // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
